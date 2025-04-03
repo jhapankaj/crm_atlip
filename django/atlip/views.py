@@ -650,6 +650,7 @@ class UploadPatentXLSViewSet(viewsets.ViewSet):
             print(f"Renamed Columns: {df.columns.tolist()}")
 
             # Validate required columns
+            """
             required_columns = [
                 "patent_title",
             "territory",
@@ -685,6 +686,8 @@ class UploadPatentXLSViewSet(viewsets.ViewSet):
             "status",
             "comments"
             ]
+            """
+            required_columns = [ "patent_title" ]
             missing_columns = set(required_columns) - set(df.columns)
             print(missing_columns, "missing_columns")
             if missing_columns:
@@ -696,41 +699,39 @@ class UploadPatentXLSViewSet(viewsets.ViewSet):
             for _, row in df.iterrows():
                 print(row)
                 data = {
-                    "patent_title" : row["patent_title"],
-                    "territory" : row["territory"],
-                    "p_type" : row["p_type"],
-                    "priority" : row["priority"],
-                    "application_date" : row["application_date"],
-                    "application_no" : row["application_no"],
-                    "publication_date" : row["publication_date"],
-                    "publication_no" : row["publication_no"],
-                    "registration_date" : row["registration_date"],
-                    "registration_no" : row["registration_no"],
-                    "next_annuity" : row["next_annuity"],
-                    "annuity_no" : row["annuity_no"],
-                    "owner_name" : row["owner_name"],
-                    "owner_email" : row["owner_email"],  
-                    "owner_phone" : row["owner_phone"],
-                    "owner_address" : row["owner_address"],
-                    "owner_vat" : row["owner_vat"],
-                    "owner_contact_person" : row["owner_contact_person"],
-                    "agent_name" : row["agent_name"],
-                    "agent_email" : row["agent_email"],
-                    "agent_phone" : row["agent_phone"],
-                    "agent_address" : row["agent_address"],
-                    "agent_vat" : row["agent_vat"],
-                    "agent_contact_person" : row["agent_contact_person"] ,
-                    "group_name" : row["group_name"],
-                    "group_email" : row["group_email"],
-                    "group_address" : row["group_address"],
-                    "group_phone" : row["group_phone"],
-                    "group_vat" : row["group_vat"],
-                    "group_contact_person" : row["group_contact_person"],
-                    "inventor" : row["inventor"],
-                    "status" : row["status"],
-                    "comments" : row["comments"]
-
-                    
+                    "patent_title": row["patent_title"] if pd.notna(row["patent_title"]) else None,
+                    "territory": row["territory"] if pd.notna(row["territory"]) else None,
+                    "p_type": row["p_type"] if pd.notna(row["p_type"]) else None,
+                    "priority": row["priority"] if pd.notna(row["priority"]) else None,
+                    "application_date": row["application_date"] if pd.notna(row["application_date"]) else None,
+                    "application_no": row["application_no"] if pd.notna(row["application_no"]) else None,
+                    "publication_date": row["publication_date"] if pd.notna(row["publication_date"]) else None,
+                    "publication_no": row["publication_no"] if pd.notna(row["publication_no"]) else None,
+                    "registration_date": row["registration_date"] if pd.notna(row["registration_date"]) else None,
+                    "registration_no": row["registration_no"] if pd.notna(row["registration_no"]) else None,
+                    "next_annuity": row["next_annuity"] if pd.notna(row["next_annuity"]) else None,
+                    "annuity_no": row["annuity_no"] if pd.notna(row["annuity_no"]) else None,
+                    "owner_name": row["owner_name"] if pd.notna(row["owner_name"]) else None,
+                    "owner_email": row["owner_email"] if pd.notna(row["owner_email"]) else None,
+                    "owner_phone": row["owner_phone"] if pd.notna(row["owner_phone"]) else None,
+                    "owner_address": row["owner_address"] if pd.notna(row["owner_address"]) else None,
+                    "owner_vat": row["owner_vat"] if pd.notna(row["owner_vat"]) else None,
+                    "owner_contact_person": row["owner_contact_person"] if pd.notna(row["owner_contact_person"]) else None,
+                    "agent_name": row["agent_name"] if pd.notna(row["agent_name"]) else None,
+                    "agent_email": row["agent_email"] if pd.notna(row["agent_email"]) else None,
+                    "agent_phone": row["agent_phone"] if pd.notna(row["agent_phone"]) else None,
+                    "agent_address": row["agent_address"] if pd.notna(row["agent_address"]) else None,
+                    "agent_vat": row["agent_vat"] if pd.notna(row["agent_vat"]) else None,
+                    "agent_contact_person": row["agent_contact_person"] if pd.notna(row["agent_contact_person"]) else None,
+                    "group_name": row["group_name"] if pd.notna(row["group_name"]) else None,
+                    "group_email": row["group_email"] if pd.notna(row["group_email"]) else None,
+                    "group_address": row["group_address"] if pd.notna(row["group_address"]) else None,
+                    "group_phone": row["group_phone"] if pd.notna(row["group_phone"]) else None,
+                    "group_vat": row["group_vat"] if pd.notna(row["group_vat"]) else None,
+                    "group_contact_person": row["group_contact_person"] if pd.notna(row["group_contact_person"]) else None,
+                    "inventor": row["inventor"] if pd.notna(row["inventor"]) else None,
+                    "status": row["status"] if pd.notna(row["status"]) else None,
+                    "comments": row["comments"] if pd.notna(row["comments"]) else None
                 }
                 serializer = PatentPortfolioSerializer(data=data)
                 if serializer.is_valid():
@@ -1154,6 +1155,7 @@ class UploadBrandXLSViewSet(viewsets.ViewSet):
             print(f"Renamed Columns: {df.columns.tolist()}")
 
             # Validate required columns
+            """
             required_columns = [
                 "title", "logo", "b_type", "territory", "application_date", "application_no",
                 "registration_date", "registration_no", "classes", "deadline", "affidavit",
@@ -1163,6 +1165,8 @@ class UploadBrandXLSViewSet(viewsets.ViewSet):
                 "group_email", "group_address", "group_phone", "group_vat",
                 "group_contact_person", "status", "comments"
             ]
+            """
+            required_columns = [ "title"]
             missing_columns = set(required_columns) - set(df.columns)
             if missing_columns:
                 return Response({"error": f"Missing required columns: {', '.join(missing_columns)}"}, status=status.HTTP_400_BAD_REQUEST)
@@ -1209,43 +1213,44 @@ class UploadBrandXLSViewSet(viewsets.ViewSet):
                         size=sys.getsizeof(image_io),
                         charset=None
                     )
-
+                else : 
+                    logo_image_file = None 
                 # Prepare data for saving
                 # Format Date type fields \
                 print( type( row["application_date"]) , type(logo_image_file) , "type check")
 
                 data = {
-                    "title": row["title"],
-                    "logo": logo_image_file ,  
-                    "b_Type": row["b_type"],
-                    "territory": row["territory"],
-                    "application_date": row["application_date"],
-                    "application_no": row["application_no"],
-                    "registration_date": row["registration_date"],
-                    "registration_no": row["registration_no"],
-                    "classes": row["classes"],
-                    "deadline": row["deadline"],
-                    "affidavit": row["affidavit"],
-                    "owner_name": row["owner_name"],
-                    "owner_email": row["owner_email"],
-                    "owner_phone": row["owner_phone"],
-                    "owner_address": row["owner_address"],
-                    "owner_vat": row["owner_vat"],
-                    "owner_contact_person": row["owner_contact_person"],
-                    "agent_name": row["agent_name"],
-                    "agent_email": row["agent_email"],
-                    "agent_phone": row["agent_phone"],
-                    "agent_address": row["agent_address"],
-                    "agent_vat": row["agent_vat"],
-                    "agent_contact_person": row["agent_contact_person"],
-                    "group_name": row["group_name"],
-                    "group_email": row["group_email"],
-                    "group_address": row["group_address"],
-                    "group_phone": row["group_phone"],
-                    "group_vat": row["group_vat"],
-                    "group_contact_person": row["group_contact_person"],
-                    "status": row["status"],
-                    "comments": row["comments"],
+                    "title": row["title"] if pd.notna(row["title"]) else None,
+                    "logo": logo_image_file if pd.notna(logo_image_file) else None,
+                    "b_Type": row["b_type"] if pd.notna(row["b_type"]) else None,
+                    "territory": row["territory"] if pd.notna(row["territory"]) else None,
+                    "application_date": row["application_date"] if pd.notna(row["application_date"]) else None,
+                    "application_no": row["application_no"] if pd.notna(row["application_no"]) else None,
+                    "registration_date": row["registration_date"] if pd.notna(row["registration_date"]) else None,
+                    "registration_no": row["registration_no"] if pd.notna(row["registration_no"]) else None,
+                    "classes": row["classes"] if pd.notna(row["classes"]) else None,
+                    "deadline": row["deadline"] if pd.notna(row["deadline"]) else None,
+                    "affidavit": row["affidavit"] if pd.notna(row["affidavit"]) else None,
+                    "owner_name": row["owner_name"] if pd.notna(row["owner_name"]) else None,
+                    "owner_email": row["owner_email"] if pd.notna(row["owner_email"]) else None,
+                    "owner_phone": row["owner_phone"] if pd.notna(row["owner_phone"]) else None,
+                    "owner_address": row["owner_address"] if pd.notna(row["owner_address"]) else None,
+                    "owner_vat": row["owner_vat"] if pd.notna(row["owner_vat"]) else None,
+                    "owner_contact_person": row["owner_contact_person"] if pd.notna(row["owner_contact_person"]) else None,
+                    "agent_name": row["agent_name"] if pd.notna(row["agent_name"]) else None,
+                    "agent_email": row["agent_email"] if pd.notna(row["agent_email"]) else None,
+                    "agent_phone": row["agent_phone"] if pd.notna(row["agent_phone"]) else None,
+                    "agent_address": row["agent_address"] if pd.notna(row["agent_address"]) else None,
+                    "agent_vat": row["agent_vat"] if pd.notna(row["agent_vat"]) else None,
+                    "agent_contact_person": row["agent_contact_person"] if pd.notna(row["agent_contact_person"]) else None,
+                    "group_name": row["group_name"] if pd.notna(row["group_name"]) else None,
+                    "group_email": row["group_email"] if pd.notna(row["group_email"]) else None,
+                    "group_address": row["group_address"] if pd.notna(row["group_address"]) else None,
+                    "group_phone": row["group_phone"] if pd.notna(row["group_phone"]) else None,
+                    "group_vat": row["group_vat"] if pd.notna(row["group_vat"]) else None,
+                    "group_contact_person": row["group_contact_person"] if pd.notna(row["group_contact_person"]) else None,
+                    "status": row["status"] if pd.notna(row["status"]) else None,
+                    "comments": row["comments"] if pd.notna(row["comments"]) else None,
                 }
 
                 serializer = BrandPortfolioSerializer(data=data)
@@ -1579,10 +1584,12 @@ class UploadOwnerXLSViewSet(viewsets.ViewSet):
             print(f"Renamed Columns: {df.columns.tolist()}")
 
             # Validate required columns
-            required_columns = [
+            """required_columns = [
                 "owner_name", "owner_email", "owner_phone", "owner_address", "owner_vat",
                 "owner_contact_person"
             ]
+            """
+            required_columns = [ "owner_name"]
             missing_columns = set(required_columns) - set(df.columns)
             if missing_columns:
                 return Response({"error": f"Missing required columns: {', '.join(missing_columns)}"}, status=status.HTTP_400_BAD_REQUEST)
@@ -1602,12 +1609,12 @@ class UploadOwnerXLSViewSet(viewsets.ViewSet):
             for index, row in df.iterrows():
                 print( index , row )
                 data = {
-                    "owner_name": row["owner_name"],
-                    "owner_email": row["owner_email"],
-                    "owner_phone": row["owner_phone"],
-                    "owner_address": row["owner_address"],
-                    "owner_vat": row["owner_vat"],
-                    "owner_contact_person": row["owner_contact_person"],
+                    "owner_name": row["owner_name"] if pd.notna(row["owner_name"]) else None,
+                    "owner_email": row["owner_email"] if pd.notna(row["owner_email"]) else None,
+                    "owner_phone": row["owner_phone"] if pd.notna(row["owner_phone"]) else None,
+                    "owner_address": row["owner_address"] if pd.notna(row["owner_address"]) else None,
+                    "owner_vat": row["owner_vat"] if pd.notna(row["owner_vat"]) else None,
+                    "owner_contact_person": row["owner_contact_person"] if pd.notna(row["owner_contact_person"]) else None,
                     
                 }
 
@@ -1911,10 +1918,13 @@ class UploadAgentXLSViewSet(viewsets.ViewSet):
             print(f"Renamed Columns: {df.columns.tolist()}")
 
             # Validate required columns
+            """
             required_columns = [
                 "agent_name", "agent_email", "agent_phone", "agent_address", "agent_vat",
                 "agent_contact_person"
             ]
+            """
+            required_columns = [ "agent_name" ]
             missing_columns = set(required_columns) - set(df.columns)
             if missing_columns:
                 return Response({"error": f"Missing required columns: {', '.join(missing_columns)}"}, status=status.HTTP_400_BAD_REQUEST)
@@ -1930,16 +1940,18 @@ class UploadAgentXLSViewSet(viewsets.ViewSet):
 
             print("Starting iterations")
             for index, row in df.iterrows():
-                print( index , row )
+                #print( index , row )
                 data = {
-                    "agent_name": row["agent_name"],
-                    "agent_email": row["agent_email"],
-                    "agent_phone": row["agent_phone"],
-                    "agent_address": row["agent_address"],
-                    "agent_vat": row["agent_vat"],
-                    "agent_contact_person": row["agent_contact_person"],
+                    "agent_name": row["agent_name"] if pd.notna(row["agent_name"]) else None,
+                    "agent_email": row["agent_email"] if pd.notna(row["agent_email"]) else None,
+                    "agent_phone": row["agent_phone"] if pd.notna(row["agent_phone"]) else None,
+                    "agent_address": row["agent_address"] if pd.notna(row["agent_address"]) else None,
+                    "agent_vat": row["agent_vat"] if pd.notna(row["agent_vat"]) else None,
+                    "agent_contact_person": row["agent_contact_person"] if pd.notna(row["agent_contact_person"]) else None,
                     
                 }
+
+                print(data , ">>>>>>>>>>>>>>")
 
                 serializer = AgentPortfolioSerializer(data=data)
                 if serializer.is_valid():
@@ -2251,6 +2263,7 @@ class UploadDomainXLSViewSet(viewsets.ViewSet):
             print(f"Renamed Columns: {df.columns.tolist()}")
 
             # Validate required columns
+            """
             required_columns = [
                 'domain_name', 'extension', 'creation_date', 'deadline', 
                 'owner_name', 'owner_email', 'owner_phone', 'owner_address', 'owner_vat', 'owner_contact_person', 
@@ -2258,6 +2271,8 @@ class UploadDomainXLSViewSet(viewsets.ViewSet):
                 'group_name', 'group_email', 'group_address', 'group_phone', 'group_vat', 'group_contact_person', 
                 'status', 'comments'
             ]
+            """
+            required_columns = [ 'domain_name' ]
             missing_columns = set(required_columns) - set(df.columns)
             if missing_columns:
                 return Response({"error": f"Missing required columns: {', '.join(missing_columns)}"}, status=status.HTTP_400_BAD_REQUEST)
@@ -2277,31 +2292,30 @@ class UploadDomainXLSViewSet(viewsets.ViewSet):
                 
 
                 data = {
-                    'domain_name' : row['domain_name'] , 
-                    'extension' : row['extension'], 
-                    'creation_date' : row['creation_date'], 
-                    'deadline' : row['deadline'],
-                    "owner_name": row["owner_name"],
-                    "owner_email": row["owner_email"],
-                    "owner_phone": row["owner_phone"],
-                    "owner_address": row["owner_address"],
-                    "owner_vat": row["owner_vat"],
-                    "owner_contact_person": row["owner_contact_person"],
-                    "agent_name": row["agent_name"],
-                    "agent_email": row["agent_email"],
-                    "agent_phone": row["agent_phone"],
-                    "agent_address": row["agent_address"],
-                    "agent_vat": row["agent_vat"],
-                    "agent_contact_person": row["agent_contact_person"],
-                    "group_name": row["group_name"],
-                    "group_email": row["group_email"],
-                    "group_address": row["group_address"],
-                    "group_phone": row["group_phone"],
-                    "group_vat": row["group_vat"],
-                    "group_contact_person": row["group_contact_person"],
-                    "status": row["status"],
-                    "comments": row["comments"]
-                    
+                    'domain_name': row['domain_name'] if pd.notna(row['domain_name']) else None,
+                    'extension': row['extension'] if pd.notna(row['extension']) else None,
+                    'creation_date': row['creation_date'] if pd.notna(row['creation_date']) and row['creation_date'] != "" else None,
+                    'deadline': row['deadline'] if pd.notna(row['deadline']) and row['deadline'] != "" else None,
+                    "owner_name": row["owner_name"] if pd.notna(row["owner_name"]) else None,
+                    "owner_email": row["owner_email"] if pd.notna(row["owner_email"]) else None,
+                    "owner_phone": row["owner_phone"] if pd.notna(row["owner_phone"]) else None,
+                    "owner_address": row["owner_address"] if pd.notna(row["owner_address"]) else None,
+                    "owner_vat": row["owner_vat"] if pd.notna(row["owner_vat"]) else None,
+                    "owner_contact_person": row["owner_contact_person"] if pd.notna(row["owner_contact_person"]) else None,
+                    "agent_name": row["agent_name"] if pd.notna(row["agent_name"]) else None,
+                    "agent_email": row["agent_email"] if pd.notna(row["agent_email"]) else None,
+                    "agent_phone": row["agent_phone"] if pd.notna(row["agent_phone"]) else None,
+                    "agent_address": row["agent_address"] if pd.notna(row["agent_address"]) else None,
+                    "agent_vat": row["agent_vat"] if pd.notna(row["agent_vat"]) else None,
+                    "agent_contact_person": row["agent_contact_person"] if pd.notna(row["agent_contact_person"]) else None,
+                    "group_name": row["group_name"] if pd.notna(row["group_name"]) else None,
+                    "group_email": row["group_email"] if pd.notna(row["group_email"]) else None,
+                    "group_address": row["group_address"] if pd.notna(row["group_address"]) else None,
+                    "group_phone": row["group_phone"] if pd.notna(row["group_phone"]) else None,
+                    "group_vat": row["group_vat"] if pd.notna(row["group_vat"]) else None,
+                    "group_contact_person": row["group_contact_person"] if pd.notna(row["group_contact_person"]) else None,
+                    "status": row["status"] if pd.notna(row["status"]) else None,
+                    "comments": row["comments"] if pd.notna(row["comments"]) else None,
                 }
 
                 serializer = DomainPortfolioSerializer(data=data)
@@ -2700,6 +2714,7 @@ class UploadBrandXLSViewSet(viewsets.ViewSet):
             print(f"Renamed Columns: {df.columns.tolist()}")
 
             # Validate required columns
+            """
             required_columns = [
                 "title", "logo", "b_type", "territory", "application_date", "application_no",
                 "registration_date", "registration_no", "classes", "deadline", "affidavit",
@@ -2709,6 +2724,8 @@ class UploadBrandXLSViewSet(viewsets.ViewSet):
                 "group_email", "group_address", "group_phone", "group_vat",
                 "group_contact_person", "status", "comments"
             ]
+            """
+            required_columns = [ "title" ]
             missing_columns = set(required_columns) - set(df.columns)
             if missing_columns:
                 return Response({"error": f"Missing required columns: {', '.join(missing_columns)}"}, status=status.HTTP_400_BAD_REQUEST)
@@ -2756,42 +2773,44 @@ class UploadBrandXLSViewSet(viewsets.ViewSet):
                         charset=None
                     )
 
+                else : 
+                    logo_image_file = None
                 # Prepare data for saving
                 # Format Date type fields \
                 print( type( row["application_date"]) , type(logo_image_file) , "type check")
 
                 data = {
-                    "title": row["title"],
-                    "logo": logo_image_file ,  
-                    "b_Type": row["b_type"],
-                    "territory": row["territory"],
-                    "application_date": row["application_date"],
-                    "application_no": row["application_no"],
-                    "registration_date": row["registration_date"],
-                    "registration_no": row["registration_no"],
-                    "classes": row["classes"],
-                    "deadline": row["deadline"],
-                    "affidavit": row["affidavit"],
-                    "owner_name": row["owner_name"],
-                    "owner_email": row["owner_email"],
-                    "owner_phone": row["owner_phone"],
-                    "owner_address": row["owner_address"],
-                    "owner_vat": row["owner_vat"],
-                    "owner_contact_person": row["owner_contact_person"],
-                    "agent_name": row["agent_name"],
-                    "agent_email": row["agent_email"],
-                    "agent_phone": row["agent_phone"],
-                    "agent_address": row["agent_address"],
-                    "agent_vat": row["agent_vat"],
-                    "agent_contact_person": row["agent_contact_person"],
-                    "group_name": row["group_name"],
-                    "group_email": row["group_email"],
-                    "group_address": row["group_address"],
-                    "group_phone": row["group_phone"],
-                    "group_vat": row["group_vat"],
-                    "group_contact_person": row["group_contact_person"],
-                    "status": row["status"],
-                    "comments": row["comments"],
+                    "title": row["title"] if pd.notna(row["title"]) else None,
+                    "logo": logo_image_file if logo_image_file else None,  
+                    "b_Type": row["b_type"] if pd.notna(row["b_type"]) else None,
+                    "territory": row["territory"] if pd.notna(row["territory"]) else None,
+                    "application_date": row["application_date"] if pd.notna(row["application_date"]) and row["application_date"] != "" else None,
+                    "application_no": row["application_no"] if pd.notna(row["application_no"]) else None,
+                    "registration_date": row["registration_date"] if pd.notna(row["registration_date"]) and row["registration_date"] != "" else None,
+                    "registration_no": row["registration_no"] if pd.notna(row["registration_no"]) else None,
+                    "classes": row["classes"] if pd.notna(row["classes"]) else None,
+                    "deadline": row["deadline"] if pd.notna(row["deadline"]) and row["deadline"] != "" else None,
+                    "affidavit": row["affidavit"] if pd.notna(row["affidavit"]) and row["affidavit"] != "" else None,
+                    "owner_name": row["owner_name"] if pd.notna(row["owner_name"]) else None,
+                    "owner_email": row["owner_email"] if pd.notna(row["owner_email"]) else None,
+                    "owner_phone": row["owner_phone"] if pd.notna(row["owner_phone"]) else None,
+                    "owner_address": row["owner_address"] if pd.notna(row["owner_address"]) else None,
+                    "owner_vat": row["owner_vat"] if pd.notna(row["owner_vat"]) else None,
+                    "owner_contact_person": row["owner_contact_person"] if pd.notna(row["owner_contact_person"]) else None,
+                    "agent_name": row["agent_name"] if pd.notna(row["agent_name"]) else None,
+                    "agent_email": row["agent_email"] if pd.notna(row["agent_email"]) else None,
+                    "agent_phone": row["agent_phone"] if pd.notna(row["agent_phone"]) else None,
+                    "agent_address": row["agent_address"] if pd.notna(row["agent_address"]) else None,
+                    "agent_vat": row["agent_vat"] if pd.notna(row["agent_vat"]) else None,
+                    "agent_contact_person": row["agent_contact_person"] if pd.notna(row["agent_contact_person"]) else None,
+                    "group_name": row["group_name"] if pd.notna(row["group_name"]) else None,
+                    "group_email": row["group_email"] if pd.notna(row["group_email"]) else None,
+                    "group_address": row["group_address"] if pd.notna(row["group_address"]) else None,
+                    "group_phone": row["group_phone"] if pd.notna(row["group_phone"]) else None,
+                    "group_vat": row["group_vat"] if pd.notna(row["group_vat"]) else None,
+                    "group_contact_person": row["group_contact_person"] if pd.notna(row["group_contact_person"]) else None,
+                    "status": row["status"] if pd.notna(row["status"]) else None,
+                    "comments": row["comments"] if pd.notna(row["comments"]) else None,
                 }
 
                 serializer = BrandPortfolioSerializer(data=data)
@@ -3195,6 +3214,7 @@ class UploadModelXLSViewSet(viewsets.ViewSet):
 
             # Read data using pandas
             df = pd.read_excel(file_path, engine="openpyxl")
+            print( df.columns , "column name")
             df["application_date"] = df["application_date"].dt.strftime("%Y-%m-%d")
             df["registration_date"] = df["registration_date"].dt.strftime("%Y-%m-%d")
             df["deadline"] = df["deadline"].dt.strftime("%Y-%m-%d")
@@ -3203,6 +3223,7 @@ class UploadModelXLSViewSet(viewsets.ViewSet):
             print(f"Renamed Columns: {df.columns.tolist()}")
 
             # Validate required columns
+            """
             required_columns = [
                 'design_title', 'logo', 'territory', 'd_type', 
                 'application_date', 'application_no', 'registration_date', 
@@ -3213,6 +3234,8 @@ class UploadModelXLSViewSet(viewsets.ViewSet):
                 'group_address', 'group_phone', 'group_vat', 'group_contact_person', 
                 'inventor', 'comments', 'status'
             ]
+            """
+            required_columns = [ 'design_title' ] 
             missing_columns = set(required_columns) - set(df.columns)
             if missing_columns:
                 return Response({"error": f"Missing required columns: {', '.join(missing_columns)}"}, status=status.HTTP_400_BAD_REQUEST)
@@ -3263,42 +3286,43 @@ class UploadModelXLSViewSet(viewsets.ViewSet):
                         charset=None
                     )
 
+                else : 
+                    logo_image_file = None 
                 # Prepare data for saving
                 # Format Date type fields \
                 #print( type( row["application_date"]) , type(logo_image_file) , "type check")
 
                 data = {
-                    'design_title' : row['design_title'], 
-                    'logo' : logo_image_file , 
-                    'territory' : row['territory'], 
-                    'd_Type' : row['d_type'], 
-                    'application_date' : row['application_date'], 
-                    'application_no' : row['application_no'], 
-                    'registration_date' : row['registration_date'],
-                    'registration_no' : row['registration_no'], 
-                    'deadline' : row['deadline'], 
-                    'owner_name' : row['owner_name'], 
-                    'owner_email' : row['owner_email'], 
-                    'owner_phone' : row['owner_phone'], 
-                    'owner_address' : row['owner_address'], 
-                    'owner_vat' : row['owner_vat'], 
-                    'owner_contact_person' : row["owner_contact_person"], 
-                    'agent_name' : row["agent_name"], 
-                    'agent_email' : row["agent_email"], 
-                    'agent_phone' : row["agent_phone"], 
-                    'agent_address' : row["agent_address"], 
-                    'agent_vat' : row["agent_vat"], 
-                    'agent_contact_person' : row["agent_contact_person"], 
-                    'group_name' : row["group_name"], 
-                    'group_email' : row["group_email"], 
-                    'group_address' : row["group_address"], 
-                    'group_phone' : row["agent_phone"], 
-                    'group_vat' : row["group_vat"], 
-                    'group_contact_person' : row["group_contact_person"], 
-                    'inventor' : row["inventor"], 
-                    'comments' : row["comments"], 
-                    'status' : row["status"]
-                    
+                    'design_title': row['design_title'] if pd.notna(row['design_title']) else None,
+                    'logo': logo_image_file if pd.notna(logo_image_file) else None,
+                    'territory': row['territory'] if pd.notna(row['territory']) else None,
+                    'd_Type': row['d_type'] if pd.notna(row['d_type']) else None,
+                    'application_date': row['application_date'] if pd.notna(row['application_date']) and row['application_date'] != "" else None,
+                    'application_no': row['application_no'] if pd.notna(row['application_no']) else None,
+                    'registration_date': row['registration_date'] if pd.notna(row['registration_date']) and row['registration_date'] != "" else None,
+                    'registration_no': row['registration_no'] if pd.notna(row['registration_no']) else None,
+                    'deadline': row['deadline'] if pd.notna(row['deadline']) and row['deadline'] != "" else None,
+                    'owner_name': row['owner_name'] if pd.notna(row['owner_name']) else None,
+                    'owner_email': row['owner_email'] if pd.notna(row['owner_email']) else None,
+                    'owner_phone': row['owner_phone'] if pd.notna(row['owner_phone']) else None,
+                    'owner_address': row['owner_address'] if pd.notna(row['owner_address']) else None,
+                    'owner_vat': row['owner_vat'] if pd.notna(row['owner_vat']) else None,
+                    'owner_contact_person': row["owner_contact_person"] if pd.notna(row["owner_contact_person"]) else None,
+                    'agent_name': row["agent_name"] if pd.notna(row["agent_name"]) else None,
+                    'agent_email': row["agent_email"] if pd.notna(row["agent_email"]) else None,
+                    'agent_phone': row["agent_phone"] if pd.notna(row["agent_phone"]) else None,
+                    'agent_address': row["agent_address"] if pd.notna(row["agent_address"]) else None,
+                    'agent_vat': row["agent_vat"] if pd.notna(row["agent_vat"]) else None,
+                    'agent_contact_person': row["agent_contact_person"] if pd.notna(row["agent_contact_person"]) else None,
+                    'group_name': row["group_name"] if pd.notna(row["group_name"]) else None,
+                    'group_email': row["group_email"] if pd.notna(row["group_email"]) else None,
+                    'group_address': row["group_address"] if pd.notna(row["group_address"]) else None,
+                    'group_phone': row["group_phone"] if pd.notna(row["group_phone"]) else None,
+                    'group_vat': row["group_vat"] if pd.notna(row["group_vat"]) else None,
+                    'group_contact_person': row["group_contact_person"] if pd.notna(row["group_contact_person"]) else None,
+                    'inventor': row["inventor"] if pd.notna(row["inventor"]) else None,
+                    'comments': row["comments"] if pd.notna(row["comments"]) else None,
+                    'status': row["status"] if pd.notna(row["status"]) else None,
                 }
 
                 serializer = ModelPortfolioSerializer(data=data)
@@ -3351,19 +3375,3 @@ class ModelPortfolioUploadViewSet(viewsets.ViewSet):
 
         return response
     
-
-
-
-
-
-    
-
-
-
-        
-
-
-
-
-    
-
